@@ -1,0 +1,15 @@
+attr==0.3.2
+colorama==0.4.6
+contextlib2==21.6.0
+inflection==0.5.1
+libusb1==3.1.0
+M2Crypto==0.42.0
+mutablerecords==0.4.1
+pandas==2.2.3
+protobuf==5.28.2
+pyserial==3.5
+PyYAML==6.0.2
+setuptools==70.3.0
+sockjs_tornado==1.0.7
+tornado==6.4.1
+typing_extensions==4.12.2
