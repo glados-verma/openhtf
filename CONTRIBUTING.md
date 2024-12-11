@@ -258,6 +258,55 @@ pip install path/to/openhtf.whl
 python -m openhtf.output.servers.dashboard_server
 ```
 
+### Windows
+
+Download and extract/install dependencies:
+
+1.   [Python for Windows](https://www.python.org/downloads/windows/) (installer)
+2.   [Protocol Buffers for Windows](https://github.com/protocolbuffers/protobuf/releases) (compressed archive; extract to a suitable location on your machine).
+
+Commands below are for Command Prompt; if using PowerShell, some of them will need to be modified.
+
+```bash
+# Clone into the repo.
+git clone https://github.com/<your GitHub user>/openhtf.git
+
+# Change to the openhtf directory.
+cd openhtf
+
+# Create a new virtualenv.
+python -m venv venv
+
+# Activate the new virtualenv.
+venv\Scripts\activate.bat
+
+# Update build (run setuptools).
+pip install build --upgrade
+
+# Install openhtf into the virtualenv in dev mode.
+pip install --editable .
+
+# Install tox and run unit tests.
+pip install tox
+tox
+```
+
+As a developer it's a good practice to verify wheel-building.
+
+```
+python -m build
+```
+
+This will create a .whl in the `dist` directory. Try creating a fresh venv in
+a different directory, following steps above, and installing the wheel there:
+
+```
+pip install path/to/openhtf.whl
+
+# Try launching the dashboard server.
+python -m openhtf.output.servers.dashboard_server
+```
+
 ### MacOS
 We will use [Homebrew](https://brew.sh/) to install our dependencies and Pip to set up the virtualenv. We recommend installing [Xcode](https://developer.apple.com/xcode/) first as the GCC compiler will be needed for both; however, other GCC compilers not associated with Xcode may work just as well. 
 
