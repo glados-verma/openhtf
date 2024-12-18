@@ -59,4 +59,4 @@ protobufs = [
     "openhtf/output/proto/mfg_event.proto",
     "openhtf/output/proto/test_runs.proto",
 ]
-
+protoc_version = "29.2"
