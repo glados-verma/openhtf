@@ -26,7 +26,9 @@ PhaseResult.REPEAT from a phase.  The number of repeats for a particular
 phase can be limited specifying a PhaseOptions.repeat_limit.
 """
 
+import os  # Add os import
 import openhtf
+from openhtf.output.callbacks import json_factory # Add json_factory import
 from openhtf import plugs
 from openhtf.core import base_plugs
 
@@ -89,10 +91,21 @@ def phase_repeat_with_limit(test_plug):
     return openhtf.PhaseResult.REPEAT
 
 
-def main():
-  test = openhtf.Test(phase_repeat, phase_repeat_with_limit)
+def create_and_run_test(output_dir: str = None):
+  test = openhtf.Test(phase_repeat, phase_repeat_with_limit, name="Repeat Test")
+
+  # Determine the base directory for output.
+  base_output_path = output_dir if output_dir is not None else os.getcwd()
+
+  # Configure JSON output.
+  # The filename will be {dut_id}.Repeat Test.json, placed in base_output_path.
+  output_filename_format = os.path.join(base_output_path, '{dut_id}.Repeat Test.json')
+  
+  test.add_output_callbacks(
+      json_factory.OutputToJSON(output_filename_format, indent=2)
+  )
   test.execute(test_start=lambda: 'RepeatDutID')
 
 
 if __name__ == '__main__':
-  main()
+  create_and_run_test()
