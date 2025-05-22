@@ -13,6 +13,7 @@
 # limitations under the License.
 """Example OpenHTF test demonstrating use of checkpoints and measurements."""
 
+import os  # Add os import
 import time
 
 import openhtf as htf
@@ -42,7 +43,7 @@ def long_running_phase(test):
   test.logger.info('Done with long_running_phase')
 
 
-def main():
+def create_and_run_test(output_dir: str = None):
   # We instantiate our OpenHTF test with the phases we want to run as args.
   test = htf.Test(
       measurements_example.hello_phase,
@@ -59,8 +60,14 @@ def main():
 
   # The complete summary is viable in json, including the measurements
   # included in measurements_example.lots_of_measurements.
+  output_filename = 'checkpoints.json'
+  if output_dir is not None:
+    output_path = os.path.join(output_dir, output_filename)
+  else:
+    output_path = './' + output_filename  # Keep relative path default
+
   test.add_output_callbacks(
-      json_factory.OutputToJSON('./checkpoints.json', indent=2))
+      json_factory.OutputToJSON(output_path, indent=2))
 
   # Unlike hello_world.py, where we prompt for a DUT ID, here we'll just
   # use an arbitrary one.
@@ -68,4 +75,4 @@ def main():
 
 
 if __name__ == '__main__':
-  main()
+  create_and_run_test()
