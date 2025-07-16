@@ -926,6 +926,8 @@ class TestCase(unittest.TestCase):
 
   @_assert_phase_or_test_record
   def assertMeasured(self, phase_record, measurement, value=mock.ANY):
+    self.assertIn(measurement, phase_record.measurements,
+                  f'Measurement {measurement} not found')
     self.assertTrue(
         phase_record.measurements[measurement].measured_value.is_value_set,
         'Measurement %s not set' % measurement)
@@ -935,6 +937,22 @@ class TestCase(unittest.TestCase):
           'Measurement %s has wrong value: expected %s, got %s' %
           (measurement, value,
            phase_record.measurements[measurement].measured_value.value))
+
+  @_assert_phase_or_test_record
+  def assertMeasuredAlmostEqual(
+      self, phase_record, measurement, value, delta=None
+  ):
+    self.assertMeasured(phase_record, measurement)
+    measured_value = phase_record.measurements[measurement].measured_value.value
+    self.assertAlmostEqual(
+        value,
+        measured_value,
+        delta=delta,
+        msg=(
+            f'Measurement {measurement} has wrong value: expected {value}, got'
+            f' {measured_value}, tolerance {delta}'
+        ),
+    )
 
   @_assert_phase_or_test_record
   def assertMeasurementPass(self, phase_record, measurement, value=mock.ANY):
